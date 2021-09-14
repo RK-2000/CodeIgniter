@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,16 +19,20 @@
 </head>
 
 <body class="hold-transition register-page">
-    <div class="register-box">
+    
+<div>
+<?php 
+    if (isset($message))
+    {   echo($message);
+        
+    }    
+?>
+</div>
+<div class="register-box">
         <div class="register-logo">
             <a href="#"><b>Admin</b>LTE</a>
         </div>
-        <!-- <?php 
-        if ($data['message'])
-        {
-            echo $data['message'];
-        }
-    ?> -->
+        
         <div class="card">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
