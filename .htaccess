@@ -1,4 +1,5 @@
 RewriteEngine On
+#RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ RegisterUser.php/$1 [L]
+RewriteRule (.*) index.php/$1
