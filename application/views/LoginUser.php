@@ -18,6 +18,14 @@
 </head>
 
 <body class="hold-transition login-page">
+    <div>
+        <?php 
+    if ($this->session->flashdata('message') != NULL)
+    {   echo($this->session->flashdata('message'));
+        
+    }    
+?>
+    </div>
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
@@ -27,9 +35,11 @@
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form method="post" action="<?php echo base_url(); ?>UserControl/login">
+                <form method="post" action="<?php echo base_url(); ?>login">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email">
+                        <input value="<?php if($this->session->flashdata('email')){
+                             echo $this->session->flashdata('email');} ?>" type="email" class="form-control"
+                            placeholder="Email" name="email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -37,7 +47,9 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" name="password">
+                        <input value="<?php if($this->session->flashdata('password')){
+                             echo $this->session->flashdata('password');} ?>" type="password" class="form-control"
+                            placeholder="Password" name="password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
