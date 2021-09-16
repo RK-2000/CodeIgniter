@@ -151,7 +151,21 @@
 
             <!-- Main content -->
             <section class="content">
-                <form method="POST" enctype="multipart/form-data" action="<?php echo base_url() ?>/ProductControl">
+                <div>
+                    <?php 
+                        if (!empty($this->session->flashdata('error')))
+                        {   
+                            echo("<div class='alert alert-danger'>".$this->session->flashdata('error')."</div>");
+                        }    
+                    ?>
+                    <?php 
+                        if (!empty($this->session->flashdata('success')))
+                        {   
+                            echo("<div class='alert alert-success'>".$this->session->flashdata('success')."</div>");
+                        }    
+                    ?>
+                </div>
+                <form method="POST" enctype="multipart/form-data" action="<?php echo base_url() ?>addProduct">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card card-primary">

@@ -18,13 +18,20 @@
 </head>
 
 <body class="hold-transition login-page">
+    <!-- Print messages -->
     <div>
         <?php 
-    if ($this->session->flashdata('message') != NULL)
-    {   echo($this->session->flashdata('message'));
-        
-    }    
-?>
+            if (!empty($this->session->flashdata('error')))
+            {   
+                echo("<div class='alert alert-danger'>".$this->session->flashdata('error')."</div>");
+            }    
+        ?>
+        <?php 
+            if (!empty($this->session->flashdata('success')))
+            {   
+                echo("<div class='alert alert-success'>".$this->session->flashdata('success')."</div>");
+            }    
+        ?>
     </div>
     <div class="login-box">
         <!-- /.login-logo -->

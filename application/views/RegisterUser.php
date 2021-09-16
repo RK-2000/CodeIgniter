@@ -18,14 +18,20 @@
  </head>
 
  <body class="hold-transition register-page">
-
+     <!-- Display Error and Success Messages -->
      <div>
          <?php 
-    if ($this->session->flashdata('message') != NULL)
-    {   echo($this->session->flashdata('message'));
-        
-    }    
-    ?>
+            if (!empty($this->session->flashdata('error')))
+            {   
+                echo("<div class='alert alert-danger'>".$this->session->flashdata('error')."</div>");
+            }    
+        ?>
+         <?php 
+            if (!empty($this->session->flashdata('success')))
+            {   
+                echo("<div class='alert alert-success'>".$this->session->flashdata('success')."</div>");
+            }    
+        ?>
      </div>
      <div class="register-box">
          <div class="register-logo">
@@ -36,7 +42,7 @@
              <div class="card-body register-card-body">
                  <p class="login-box-msg">Register a new membership</p>
 
-                 <form action='<?php echo base_url()?>' method="post">
+                 <form action='<?php echo base_url('register')?>' method="post">
                      <div class="input-group mb-3">
                          <input value="<?php if($this->session->flashdata('name')){
                              echo $this->session->flashdata('name');} ?>" type="text" class="form-control"

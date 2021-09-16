@@ -7,75 +7,77 @@ class UserControl extends CI_Controller {
     }
     
     public function index(){
-        if($this->input->server('REQUEST_METHOD')=="POST"){
-            $formValues = array();
-            $data=NULL;
-            $formValues['name'] = $this->input->post('name');
-            $formValues['email'] = $this->input->post('email');    
-            $formValues['password'] = $this->input->post('password');
-            $r_password = $this->input->post('r_password');
-            $users = $this->UserModel->search_user($formValues['email']);
-            if(count($users) == 0)
-            {
-                if($formValues['password'] == $r_password){
-                    $this->UserModel->create_user($formValues);
-                    $this->session->set_userdata($formValues);
+        $this->load->view('RegisterUser');    
+    }
 
-                    redirect(base_url()."home");
-                }
-                else{
-                    $this->session->set_flashdata('message','<div class=\'alert alert-danger\'> Password didn\'t match </div>');
-                }
-            }
-            else{
-                $this->session->set_flashdata('message','<div class=\'alert alert-danger\'>An account has been made using this email</div>');
-            }
-            $this->session->set_flashdata('name',$formValues['name']);
-            $this->session->set_flashdata('email',$formValues['email']);
-            $this->session->set_flashdata('password',$formValues['password']);
+    public function register()
+    {
+        
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('r_password', 'Re Type', 'required|min_length[6]');
+        
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata("error",validation_errors());
             redirect(base_url());
         }
+
+        if($this->input->post('password') != $this->input->post('r_password')){
+            $this->session->set_flashdata("error","Re type password and password not matched");
+            redirect(base_url());
+        }
+
+        $data = array(
+            "name" => $this->input->post('name'),
+            "email" => $this->input->post('email'),
+            "password" => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+        );
+        $insert = $this->UserModel->create_user($data);
+        if(!$insert){
+            $this->session->set_flashdata("error","Something went wrong");
+            redirect(base_url());
+        }   
         
-        $this->load->view('RegisterUser');
+        $this->session->set_flashdata("success","Hello ".$data['name']);
+        $this->session->set_userdata($data);
+        redirect(base_url()."home");
+        
     }
 
 
     public function login(){
-        if($this->input->server('REQUEST_METHOD') == 'POST'){
-            $formValues=array();
-            $formValues['email']=$this->input->post('email');
-            $formValues['password']=$this->input->post('password');
-            $users = $this->UserModel->search_user($formValues['email']);
-            if(count($users) == 1){
-                $user = $this->UserModel->check_password($formValues['email'],$formValues['password']);
-                if(count($user)==1){
-                    $this->session->set_userdata($user[0]);
-                    // dd($this->session->userdata());
-                    redirect(base_url()."home");
-                }
-                else{
-                    $this->session->set_flashdata('message','<div class=\'alert alert-danger\'>Incorrect Password</div>');
-                    //$this->session->set_flashdata('email',$formValues['email']);
-                    // $this->session->set_flashdata('password',$formValues['password']);
-                    
+        $this->load->view('LoginUser'); 
+    }
 
-                }
-                
-            }
-            else{
-                $this->session->set_flashdata('message','<div class=\'alert alert-danger\'>Email not found. Please Register with this email</div>');
-                //$this->session->set_flashdata('email',$formValues['email']);
-                //$this->session->set_flashdata('password',$formValues['password']);  
-                //redirect(base_url()."login");
+    public function loginUser(){
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        //Form Validation
+        if($this->form_validation->run() == false){
+            $this->session->set_flashdata("error",validation_errors());
+            redirect(base_url());
+        }
 
-            }
+        $email=$this->input->post('email');
+        $password=$this->input->post('password');
+
+        // Check whether user is present in database
+        if(!$this->UserModel->search_user($email)){
+            $this->session->set_flashdata("error","No user found with this email!");
             redirect(base_url()."login");
         }
-
-        if ($this->session->userdata('email')!=NULL){
-            redirect(base_url()."home");
+        // Check whether password is correct or not
+        $user = $this->UserModel->check_password($email,$password);
+        if(empty($user)){
+            $this->session->set_flashdata("error","Incorrect Password!");
+            redirect(base_url()."login");
         }
-        $this->load->view('LoginUser'); 
+        // Redirects to Home
+        $this->session->set_flashdata("success","Hello ".$user['name']);
+        $this->session->set_userdata($user);
+        redirect(base_url()."home");
+
     }
 }
     
