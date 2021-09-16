@@ -3,6 +3,9 @@
 class ProductControl extends CI_Controller {
     
     public function index(){
+        if (empty($this->session->userdata('email'))){
+            redirect(base_url()."login");
+        }
         $this->load->view("UploadProduct");
     }
     

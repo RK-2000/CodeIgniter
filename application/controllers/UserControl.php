@@ -7,6 +7,10 @@ class UserControl extends CI_Controller {
     }
     
     public function index(){
+        if(!empty($this->session->userdata('email'))){
+            redirect(base_url()."home");
+        }
+
         $this->load->view('RegisterUser');    
     }
 
@@ -47,6 +51,9 @@ class UserControl extends CI_Controller {
 
 
     public function login(){
+        if(!empty($this->session->userdata('email'))){
+            redirect(base_url()."home");
+        }
         $this->load->view('LoginUser'); 
     }
 
@@ -63,19 +70,18 @@ class UserControl extends CI_Controller {
         $password=$this->input->post('password');
 
         // Check whether user is present in database
-        if(!$this->UserModel->search_user($email)){
+        $response = $this->UserModel->search_user($email);
+        if(!$response){
             $this->session->set_flashdata("error","No user found with this email!");
             redirect(base_url()."login");
         }
-        // Check whether password is correct or not
-        $user = $this->UserModel->check_password($email,$password);
-        if(empty($user)){
+        if(!password_verify($password, $response['password'])){
             $this->session->set_flashdata("error","Incorrect Password!");
             redirect(base_url()."login");
         }
-        // Redirects to Home
-        $this->session->set_flashdata("success","Hello ".$user['name']);
-        $this->session->set_userdata($user);
+        
+        $this->session->set_flashdata("success","Hello ".$response['name']);
+        $this->session->set_userdata($response);
         redirect(base_url()."home");
 
     }
