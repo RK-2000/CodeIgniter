@@ -3,7 +3,7 @@
 class ProductControl extends CI_Controller {
     
     public function index(){
-        if (empty($this->session->userdata('email'))){
+        if (!is_authenticated()){
             redirect(base_url()."login");
         }
         $this->load->view("UploadProduct");
@@ -79,6 +79,47 @@ class ProductControl extends CI_Controller {
             
         
         }
+    }
+
+    public function productGallery(){
+        if (!is_authenticated()){
+            redirect(base_url()."login");
+        }
+        $user_id = $this->session->userdata('id');
+        $limit_per_page = 3;
+        $total_products = $this->ProductModel->get_total_products($user_id);
+        if($total_products==0){
+            message('error','Please add some products');
+            redirect(base_url()."addProduct");
+        }
+        $number_of_pages = ceil($total_products/$limit_per_page);
+
+
+        if(empty($this->input->get('page'))){
+            $page = 1;
+        }
+        else{
+            $page = $this->input->get('page');
+            if($page>$number_of_pages){
+                $page=$number_of_pages;
+            }
+            if($page<1){
+                $page=1;
+            }
+        }
+
+        $first = ($page-1) * $limit_per_page;
+        $data['result'] = $this->ProductModel->get_products($user_id,$first,$limit_per_page);
+        $data['number_of_pages'] = $number_of_pages;
+        $data['page'] = $page;
+        $this->load->view("ProductGallery",$data);  
+    }
+
+    public function viewProducts(){
+        if(!is_authenticated()){
+            redirect(base_url()."login");
+        }
+        $this->load->view("ViewProduct");
     }
     
 }

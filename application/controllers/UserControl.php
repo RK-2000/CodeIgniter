@@ -7,10 +7,9 @@ class UserControl extends CI_Controller {
     }
     
     public function index(){
-        if(!empty($this->session->userdata('email'))){
+        if(is_authenticated()){
             redirect(base_url()."home");
         }
-
         $this->load->view('RegisterUser');    
     }
 
@@ -23,12 +22,12 @@ class UserControl extends CI_Controller {
         $this->form_validation->set_rules('r_password', 'Re Type', 'required|min_length[6]');
         
         if($this->form_validation->run() == false){
-            $this->session->set_flashdata("error",validation_errors());
+            message("error",validation_errors());
             redirect(base_url());
         }
 
         if($this->input->post('password') != $this->input->post('r_password')){
-            $this->session->set_flashdata("error","Re type password and password not matched");
+            message("error","Re type password and password not matched");
             redirect(base_url());
         }
 
@@ -39,11 +38,11 @@ class UserControl extends CI_Controller {
         );
         $insert = $this->UserModel->create_user($data);
         if(!$insert){
-            $this->session->set_flashdata("error","Something went wrong");
+            message("error","Something went wrong");
             redirect(base_url());
         }   
         
-        $this->session->set_flashdata("success","Hello ".$data['name']);
+        message("success","Hello ".$data['name']);
         $this->session->set_userdata($data);
         redirect(base_url()."home");
         
@@ -51,7 +50,7 @@ class UserControl extends CI_Controller {
 
 
     public function login(){
-        if(!empty($this->session->userdata('email'))){
+        if(is_authenticated()){
             redirect(base_url()."home");
         }
         $this->load->view('LoginUser'); 
@@ -80,7 +79,7 @@ class UserControl extends CI_Controller {
             redirect(base_url()."login");
         }
         
-        $this->session->set_flashdata("success","Hello ".$response['name']);
+        message("success","Hello ".$response['name']);
         $this->session->set_userdata($response);
         redirect(base_url()."home");
 

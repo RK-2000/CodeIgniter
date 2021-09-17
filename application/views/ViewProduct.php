@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard 3</title>
+    <title>View Products</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -109,7 +109,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>" class="nav-link active">
+                            <a href="<?php echo base_url(); ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -164,12 +164,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard v3</h1>
+                            <h1 class="m-0">Product Details</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v3</li>
+                                <li class="breadcrumb-item active">View Products</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -194,6 +194,65 @@
                                 echo("<div class='alert alert-success'>".$this->session->flashdata('success')."</div>");
                             }    
                         ?>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 text-center">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel"
+                                style="max-width: 540px;">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="https://img.freepik.com/free-vector/colorful-palm-silhouettes-background_23-2148541792.jpg?size=626&ext=jpg"
+                                            class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://c4.wallpaperflare.com/wallpaper/108/140/869/digital-digital-art-artwork-fantasy-art-drawing-hd-wallpaper-thumb.jpg"
+                                            class="d-block w-100" alt="...">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg"
+                                            class="d-block w-100" alt="...">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div>
+                                <h2>Product Name</h2>
+                                <div>
+                                    <b>Product Cost</b>
+                                </div>
+                                <div>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                    deserunt mollit anim id est laborum.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12 d-flex justify-content-around">
+                            <form>
+                                <button class="btn btn-warning">
+                                    Update
+                                </button>
+                                <button class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     <!-- /.row -->
                 </div>

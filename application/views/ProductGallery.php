@@ -4,20 +4,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Product Add</title>
+    <title>AdminLTE 3 | Gallery</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/ekko-lightbox/ekko-lightbox.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/adminlte.min.css">
-    <script src="https://cdn.ckeditor.com/4.16.2/basic/ckeditor.js"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+        integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous">
+    </script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -27,7 +39,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index.php" class="nav-link">Home</a>
+                    <a href="<?php echo base_url(); ?>" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -36,10 +48,21 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-
+                <!-- Navbar Search -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    <form method="POST" name="logout-form">
+                        <button class="btn btn-warning m-1" name="logout" type="submit">Log Out</button>
+                    </form>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <form method="POST" name="delete-for">
+                        <button class="btn btn-danger m-1" name="delete" type="submit">Delete</button>
+                    </form>
+                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
+
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -100,7 +123,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>addProduct" class="nav-link active">
+                            <a href="<?php echo base_url(); ?>addProduct" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Add Product
@@ -108,7 +131,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url(); ?>productGallery" class="nav-link">
+                            <a href="<?php echo base_url(); ?>productGallery" class="nav-link active">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Product Gallery
@@ -134,15 +157,17 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
+
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Project Add</h1>
+                            <h1>Product Gallery</h1>
                         </div>
+
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                                <li class="breadcrumb-item active">Product Add</li>
+                                <li class="breadcrumb-item active">Gallery</li>
                             </ol>
                         </div>
                     </div>
@@ -151,94 +176,82 @@
 
             <!-- Main content -->
             <section class="content">
-                <div>
-                    <?php 
-                        if (!empty($this->session->flashdata('error')))
-                        {   
-                            echo("<div class='alert alert-danger'>".$this->session->flashdata('error')."</div>");
-                        }    
-                    ?>
-                    <?php 
-                        if (!empty($this->session->flashdata('success')))
-                        {   
-                            echo("<div class='alert alert-success'>".$this->session->flashdata('success')."</div>");
-                        }    
-                    ?>
-                </div>
-                <form method="POST" enctype="multipart/form-data" action="<?php echo base_url() ?>addProduct">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">General</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            title="Collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="inputName">Project Name</label>
-                                        <input <?php if(isset($product_name)){?> value="<?php echo $product_name;  ?>"
-                                            <?php } ?> type="text" id="inputName" class="form-control"
-                                            name="product_name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputDescription">Project Description</label>
-                                        <textarea id="editor" name="product_desc" required><?php if(isset($product_desc)){ echo $product_desc; } ?>
-                                        </textarea>
-                                        <script>
-                                        CKEDITOR.replace('product_desc'); // ID of element
-                                        </script>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputProjectLeader">Cost</label>
-                                        <input type="number" id="inputCost" class="form-control" name="product_cost"
-                                            pattern="(^\d*\.?\d*[1-9]+\d*$)|(^[1-9]+\d*\.\d*$)"
-                                            <?php if(isset($product_cost)){?> value="<?php echo $product_cost;  ?>"
-                                            <?php } ?> min=1 oninvalid="setCustomValidation('Cost cannot be negetive')"
-                                            required>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card card-secondary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Images</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            title="Collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group" id="x">
-                                        <input type="file" <?php if(isset($image)){?> value="<?php echo $image;  ?>"
-                                            onload="preview_image()" <?php } ?> name="image[]" id="uploadFile" class=""
-                                            onchange="preview_image();" multiple required>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                    </div>
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" name="submit" value="Add new Product"
-                                class="btn btn-success float-right">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h4 class="card-title">Manage your products</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <div class="filter-container p-0 row">
+                                            <div class="card-columns">
+                                                <?php 
+                                                foreach($result as $row){
+                                                ?>
+                                                <div class="card shadow-lg mx-1 " style="width: 18rem;">
+                                                    <img class="card-img-top"
+                                                        src="uploads/<?php echo $row['product_image'] ?>"
+                                                        alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title"><?php echo $row['product_name'] ?>
+                                                        </h4>
+                                                        <p class="card-text small"><?php echo $row['product_desc'] ?>
+                                                        </p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">MRP : &#8377;
+                                                            <?php echo $row['product_cost'] ?></li>
+                                                    </ul>
+
+                                                    <form method="POST">
+                                                        <input type="hidden" name="id"
+                                                            value="<?php echo $row['product_id']; ?>">
+                                                        <div class=" card-body">
+                                                            <a class="card-link btn btn-primary"
+                                                                href="<?php echo base_url() ?>ProductControl/viewProducts">View
+                                                                Details</a>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <?php } ?>
+                                        </div>
+
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                        href='<?php echo base_url(); ?>productGallery?page=<?php echo --$page; ?>'
+                                                        aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                </li>
+
+                                                <?php
+                                                for($page = 1; $page<=$number_of_pages; $page++) {
+                                                echo "<li class='page-item'><a class='mx-1 page-link' href = 'productGallery?page=" . $page . "'>" . $page . " </a></l1>" ; 
+                                                }
+                                                ?>
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                        href='<?php echo base_url(); ?>productGallery?page=<?php echo $page++; ?>'
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    </for m>
+                    </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
         </div>
@@ -259,36 +272,16 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-    <script>
-    function PreviewImage(e) {
-        if (e.files.length > 3) {
-            alert("Only 3 files accepted.");
-            e.preventDefault();
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("uploadFile").files[0]);
-        var div = document.getElementById("x");
-        div.innerHTML += "<img id='uploadPreview' style='width:auto;height: 100px;'/>";
-        oFReader.onload = function(oFREvent) {
-            document.getElementById("uploadPreview").src = oFREvent.target.result;
-        };
-    };
 
-    function preview_image() {
-        var total_file = document.getElementById("uploadFile").files.length;
-        for (var i = 0; i < total_file; i++) {
-            $('#x').append("<img  style='width:auto;height: 100px;' src='" + URL.createObjectURL(event.target.files[
-                i]) + "'>");
-        }
-    };
-    </script>
     <!-- jQuery -->
-    <script src="<?php echo base_url();?>assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="<?php echo base_url();?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
+
+
+
+    <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="<?php echo base_url(); ?>assets/dist/js/adminlte.js"></script>
 
 </body>
 
