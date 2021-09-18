@@ -36,5 +36,11 @@ class UserModel extends CI_Model{
         $id = $this->db->query("select id from users where email = '$email';");
         return $id->result_array()[0]['id'] ;
     }
+
+    public function get_all_user()
+    {
+        $users = $this->db->query("select * from users")->result_array();
+        return $users;
+    }
 }
 ?>

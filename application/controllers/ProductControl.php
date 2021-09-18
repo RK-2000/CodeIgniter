@@ -15,7 +15,7 @@ class ProductControl extends CI_Controller {
             // Config for images
             $total_images = count($_FILES['image']['name']);
             $config['upload_path'] = "./uploads/";  
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['encrypt_name'] = TRUE;
             $this->load->library('upload',$config);
             $data = array();
@@ -86,6 +86,7 @@ class ProductControl extends CI_Controller {
             redirect(base_url()."login");
         }
         $user_id = $this->session->userdata('id');
+        //
         $limit_per_page = 3;
         $total_products = $this->ProductModel->get_total_products($user_id);
         if($total_products==0){

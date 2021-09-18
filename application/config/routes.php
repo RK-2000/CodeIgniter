@@ -59,7 +59,8 @@ $route['login']['post'] = 'UserControl/loginUser';
 $route['addProduct']['get'] = "ProductControl";
 $route['addProduct']['post'] = "ProductControl/addProduct";
 $route['productGallery']['get'] = "ProductControl/productGallery";
-
+//Datatable
+$route['datatable'] = "DataTable";
 //Home and logout
 $route['home'] = 'UserAccess/index';
 $route['logout'] = 'UserAccess/logout';
