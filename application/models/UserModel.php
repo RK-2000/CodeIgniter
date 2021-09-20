@@ -39,7 +39,7 @@ class UserModel extends CI_Model{
 
     public function get_all_user()
     {
-        $users = $this->db->query("select * from users")->result_array();
+        $users = $this->db->query("select id,name,email from users")->result_array();
         return $users;
     }
 }
