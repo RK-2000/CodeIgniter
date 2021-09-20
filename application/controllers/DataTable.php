@@ -9,10 +9,14 @@ class DataTable extends CI_Controller {
             $ascc = $this->input->get('order')[0]['dir'];;
             $search =  $this->input->get('search')['value'];
             $users = $this->db->select('users.*');
+            $count = $this->db->query('select * from users')->num_rows();
+            
             if(!empty($search)){
                 $where = "( name LIKE '%".$search."%' or email  LIKE '%".$search."%')";
                 $users->where($where);
             }
+            $selected_count = $users->get('users')->num_rows();
+            
             if ($coulmn == 1) {
                $users->order_by('id',$ascc);
             } elseif($coulmn == 2) {
@@ -21,14 +25,11 @@ class DataTable extends CI_Controller {
                $users->orderBy('email',$ascc);
             } 
             
-            // $clubsCount = $clubs->count();
             $list = $users->limit($legnth, $start)->get('users')->result();
-           
+            
             if(count($list) > 0){
                 // assigned.edit
                 foreach ($list as $key => $value) {
-                    
-                   
                     $nestedData[0] = $start+$key+1;                    
                     $nestedData[1] = $value->name;
                     $nestedData[2] =$value->email;                 
@@ -37,8 +38,8 @@ class DataTable extends CI_Controller {
                 }
         
                 $json_data = array(
-                    "recordsTotal"    => 12,
-                    "recordsFiltered" => 12,
+                    "recordsTotal"    => $count,
+                    "recordsFiltered" => $selected_count,
                     "data"            => $data
                 );
         
