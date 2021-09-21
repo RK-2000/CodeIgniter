@@ -65,5 +65,7 @@ $route['datatable'] = "DataTable";
 $route['home'] = 'UserAccess/index';
 $route['logout'] = 'UserAccess/logout';
 
+$route['email'] = "EmailController";
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
